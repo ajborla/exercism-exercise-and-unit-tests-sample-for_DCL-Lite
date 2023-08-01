@@ -6,7 +6,17 @@
 # ----------------------------------------------------------------------------
 
 runtest() {
-  :
+  # Parse arguments into identifiable components
+  IFS=^ read name cmpop expcode expvalue cut <<< "$@"
+
+  # Capture output and return code
+  retvalue=$(testcut ${cut})
+  retcode=$?
+
+  # Determine test status, and act accordingly
+  [ "${expvalue}" ${cmpop} "${retvalue}" -a ${expcode} -eq ${retcode} ] \
+    && echo OK - "${name}" \
+    || echo FAIL - "${name}"
 }
 
 testcut() {
