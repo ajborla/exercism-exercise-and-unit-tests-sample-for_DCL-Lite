@@ -20,7 +20,16 @@ runtest() {
 }
 
 testcut() {
-  :
+  # Add extension to test file name
+  local name=$1
+  shift
+  name+=.com
+  # Cleanup temporary file, use it to capture stderr
+  rm -f /tmp/dclerror
+  dcll ${name} $* 2> /tmp/dclerror
+  # Return code dependant on file contents
+  [ -s /tmp/dclerror ] && return 1
+  return 0
 }
 
 #
