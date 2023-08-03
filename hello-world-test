@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [hello-world.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Say Hi!^==^0^Hello, World!^hello-world
+EOF
+
