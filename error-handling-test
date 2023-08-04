@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [error-handling.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Correct arguments^==^0^Hello, Alice^error-handling "Alice"
+One long argument^==^0^Hello, Alice and Bob^error-handling "Alice and Bob"
+Incorrect arguments^==^1^USAGE: @error-handling person^error-handling "Alice" "Bob"
+Print usage banner with no value given^==^1^USAGE: @error-handling person^error-handling
+EOF
+
