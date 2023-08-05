@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [two-fer.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+no name given^==^0^One for you, one for me.^two-fer
+a name given^==^0^One for Alice, one for me.^two-fer "Alice"
+another name given^==^0^One for Bob, one for me.^two-fer "Bob"
+handle arg with spaces^==^0^One for John Smith, one for me.^two-fer "John Smith"
+handle arg with glob char^==^0^One for * , one for me.^two-fer "* "
+EOF
+
