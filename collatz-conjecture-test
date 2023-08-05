@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [collatz-conjecture.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Zero steps for one^==^0^0^collatz-conjecture 1
+Divide if even^==^0^4^collatz-conjecture 16
+Even and odd steps^==^0^9^collatz-conjecture 12
+Large number of even and odd steps^==^0^152^collatz-conjecture 1000000
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @collatz-conjecture n^collatz-conjecture
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @collatz-conjecture n^collatz-conjecture 16 45 66
+Float number input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @collatz-conjecture n^collatz-conjecture "20.54"
+Alpha input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @collatz-conjecture n^collatz-conjecture "abcd"
+Zero is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @collatz-conjecture n^collatz-conjecture 0
+Negative value is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @collatz-conjecture n^collatz-conjecture -15
+EOF
+
