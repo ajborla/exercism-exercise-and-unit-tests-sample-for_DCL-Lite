@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [pangram.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty sentence^==^0^false^pangram ""
+Perfect lower case^==^0^true^pangram "abcdefghijklmnopqrstuvwxyz"
+Only lower case^==^0^true^pangram "the quick brown fox jumps over the lazy dog"
+Missing the letter 'x'^==^0^false^pangram "a quick movement of the enemy will jeopardize five gunboats"
+Missing the letter 'h'^==^0^false^pangram "five boxing wizards jump quickly at it"
+With underscores^==^0^true^pangram "the_quick_brown_fox_jumps_over_the_lazy_dog"
+With numbers^==^0^true^pangram "the 1 quick brown fox jumps over the 2 lazy dogs"
+Missing letters replaced by numbers^==^0^false^pangram "7h3 qu1ck brown fox jumps ov3r 7h3 lazy dog"
+Mixed case and punctuation^==^0^true^pangram """Five quacking Zephyrs jolt my wax bed."""
+A-M and a-m are 26 different characters but not a pangram^==^0^false^pangram "abcdefghijklm ABCDEFGHIJKLM"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @pangram string^pangram 12 4562 4566
+EOF
+
