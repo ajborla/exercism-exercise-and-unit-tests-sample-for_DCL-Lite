@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [scrabble-score.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Lowercase letter^==^0^1^scrabble-score "a"
+Uppercase letter^==^0^1^scrabble-score "A"
+Valuable letter^==^0^4^scrabble-score "f"
+Short word^==^0^2^scrabble-score "at"
+Short, valuable word^==^0^12^scrabble-score "zoo"
+Medium word^==^0^6^scrabble-score "street"
+Medium, valuable word^==^0^22^scrabble-score "quirky"
+Long, mixed-case word^==^0^41^scrabble-score "OxyphenButazone"
+English-like word^==^0^8^scrabble-score "pinata"
+Empty input^==^0^0^scrabble-score ""
+Entire alphabet available^==^0^87^scrabble-score "abcdefghijklmnopqrstuvwxyz"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @scrabble-score letters^scrabble-score 12 4562 4566
+EOF
+
