@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [reverse-string.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty string^==^0^^reverse-string ""
+A word^==^0^tobor^reverse-string "robot"
+A capitalised word^==^0^nemaR^reverse-string "Ramen"
+A sentence with punctuation^==^0^!yrgnuh m'I^reverse-string "I'm hungry!"
+A palindrome^==^0^racecar^reverse-string "racecar"
+An even-sized word^==^0^reward^reverse-string "drawer"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @reverse-string string^reverse-string 12 4562 4566
+EOF
+
