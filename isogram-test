@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [isogram.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty string^==^0^true^isogram ""
+Isogram with only lower case characters^==^0^true^isogram "isogram"
+Word with one duplicated character^==^0^false^isogram "eleven"
+Word with one duplicated character from the end of the alphabet^==^0^false^isogram "zzyzx"
+Longest reported english isogram^==^0^true^isogram "subdermatoglyphic"
+Word with duplicated character in mixed case^==^0^false^isogram "Alphabet"
+Hypothetical isogrammic word with hyphen^==^0^true^isogram "thumbscrew-japingly"
+Isogram with duplicated hyphen^==^0^true^isogram "six-year-old"
+Hypothetical word with duplicated character following hyphen^==^0^false^isogram "thumbscrew-jappingly"
+Made-up name that is an isogram^==^0^true^isogram "Emily Jung Schwartzkopf"
+Duplicated character in the middle^==^0^false^isogram "accentor"
+Word with duplicated character in mixed case, lowercase first^==^0^false^isogram "alphAbet"
+Same first and last characters^==^0^false^isogram "angola"
+Word with duplicated character and with two hyphens^==^0^false^isogram "up-to-date"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @isogram string^isogram 12 4562 4566
+EOF
+
