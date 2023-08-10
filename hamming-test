@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [hamming.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty strands^==^0^0^hamming "" ""
+Single letter identical strands^==^0^0^hamming "A" "A"
+Single letter different strands^==^0^1^hamming "G" "T"
+Long identical strands^==^0^0^hamming "GGACTGAAATCTG" "GGACTGAAATCTG"
+Long different strands^==^0^9^hamming "GGACGGATTCTG" "AGGACGGATTCT"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @hamming strand1 strand2^hamming 12 4562 4566
+Unequal length strands (1) should return an error^==^1^ERROR: Strands should be of equal length. USAGE: @hamming strand1 strand2^hamming "" "G"
+Unequal length strands (2) should return an error^==^1^ERROR: Strands should be of equal length. USAGE: @hamming strand1 strand2^hamming "G" ""
+EOF
+
