@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [roman-numerals.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+1 is a single I^==^0^I^roman-numerals 1
+2 is two I's^==^0^II^roman-numerals 2
+3 is three I's^==^0^III^roman-numerals 3
+4, being 5 - 1, is IV^==^0^IV^roman-numerals 4
+5 is a single V^==^0^V^roman-numerals 5
+6, being 5 + 1, is VI^==^0^VI^roman-numerals 6
+9, being 10 - 1, is IX^==^0^IX^roman-numerals 9
+20 is two X's^==^0^XXVII^roman-numerals 27
+48 is not 50 - 2 but rather 40 + 8^==^0^XLVIII^roman-numerals 48
+49 is not 40 + 5 + 4 but rather 50 - 10 + 10 - 1^==^0^XLIX^roman-numerals 49
+50 is a single L^==^0^LIX^roman-numerals 59
+90, being 100 - 10, is XC^==^0^XCIII^roman-numerals 93
+100 is a single C^==^0^CXLI^roman-numerals 141
+60, being 50 + 10, is LX^==^0^CLXIII^roman-numerals 163
+400, being 500 - 100, is CD^==^0^CDII^roman-numerals 402
+500 is a single D^==^0^DLXXV^roman-numerals 575
+900, being 1000 - 100, is CM^==^0^CMXI^roman-numerals 911
+1000 is a single M^==^0^MXXIV^roman-numerals 1024
+3000 is three M's^==^0^MMM^roman-numerals 3000
+16 is XVI^==^0^XVI^roman-numerals 16
+66 is LXVI^==^0^LXVI^roman-numerals 66
+166 is CLXVI^==^0^CLXVI^roman-numerals 166
+666 is DCLXVI^==^0^DCLXVI^roman-numerals 666
+1666 is MDCLXVI^==^0^MDCLXVI^roman-numerals 1666
+3999 is MMMCMXCIX^==^0^MMMCMXCIX^roman-numerals 3999
+4000 exceeds range^==^1^ERROR: Only positive numbers (1 - 3999) allowed. USAGE: @roman-numerals n^roman-numerals 4000
+0 is below range^==^1^ERROR: Only positive numbers (1 - 3999) allowed. USAGE: @roman-numerals n^roman-numerals 0
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @roman-numerals n^roman-numerals
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @roman-numerals n^roman-numerals 5 7 23 153
+Float number input should return an error^==^1^ERROR: Only positive numbers (1 - 3999) allowed. USAGE: @roman-numerals n^roman-numerals 201.54
+Alpha input should return an error^==^1^ERROR: Only positive numbers (1 - 3999) allowed. USAGE: @roman-numerals n^roman-numerals "abcd"
+EOF
+
