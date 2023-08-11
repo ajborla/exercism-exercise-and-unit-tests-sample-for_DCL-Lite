@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [acronym.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Basic^==^0^PNG^acronym "Portable Network Graphics"
+Lowercase words^==^0^ROR^acronym "Ruby on Rails"
+Punctuation^==^0^FIFO^acronym "First In, First Out"
+All caps word^==^0^GIMP^acronym "GNU Image Manipulation Program"
+Punctuation without whitespace^==^0^CMOS^acronym "Complementary metal-oxide semiconductor"
+Very long abbreviation^==^0^ROTFLSHTMDCOALM^acronym "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me"
+Consecutive delimiters^==^0^SIMUFTA^acronym "Something - I made up from thin air"
+Apostrophes^==^0^HC^acronym "Halley's Comet"
+Underscore emphasis^==^0^TRNT^acronym "The Road __Not__ Taken"
+Contains shell globbing character^==^0^TW^acronym "Two '* Words"
+Empty sentence returned^==^0^^acronym ""
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @acronym sentence^acronym 12 4562 4566
+EOF
+
