@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [rna-transcription.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty RNA sequence^==^0^^rna-transcription ""
+RNA complement of cytosine is guanine^==^0^G^rna-transcription "C"
+RNA complement of guanine is cytosine^==^0^C^rna-transcription "G"
+RNA complement of thymine is adenine^==^0^A^rna-transcription "T"
+RNA complement of adenine is uracil^==^0^U^rna-transcription "A"
+RNA complement^==^0^UGCACCAGAAUU^rna-transcription "ACGTGGTCTTAA"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @rna-transcription strand^rna-transcription 12 4562 4566
+Handles invalid character^==^1^ERROR: Invalid nucleotide detected. USAGE: @rna-transcription strand^rna-transcription "ACGTXCTTA"
+Handles completely invalid string^==^1^ERROR: Invalid nucleotide detected. USAGE: @rna-transcription strand^rna-transcription "XXXX"
+Handles partially invalid string^==^1^ERROR: Invalid nucleotide detected. USAGE: @rna-transcription strand^rna-transcription "ACGTXCTTAA"
+EOF
+
