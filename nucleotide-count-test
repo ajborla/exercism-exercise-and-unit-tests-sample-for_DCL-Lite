@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [nucleotide-count.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Empty strand^==^0^A: 0 C: 0 G: 0 T: 0^nucleotide-count ""
+Can count one nucleotide in single-character input^==^0^A: 0 C: 0 G: 1 T: 0^nucleotide-count "G"
+Strand with repeated nucleotide^==^0^A: 0 C: 0 G: 7 T: 0^nucleotide-count "GGGGGGG"
+Strand with multiple nucleotides^==^0^A: 20 C: 12 G: 17 T: 21^nucleotide-count "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
+Strand with invalid nucleotides^==^1^ERROR: Invalid nucleotide detected. USAGE: @nucleotide-count strand^nucleotide-count "AGXXACT"
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @nucleotide-count strand^nucleotide-count 12 4562 4566
+EOF
+
