@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [difference-of-squares.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Square of sum 1^==^0^1^difference-of-squares square_of_sum 1
+Square of sum 5^==^0^225^difference-of-squares square_of_sum 5
+Square of sum 100^==^0^25502500^difference-of-squares square_of_sum 100
+Sum of squares 1^==^0^1^difference-of-squares sum_of_squares 1
+Sum of squares 5^==^0^55^difference-of-squares sum_of_squares 5
+Sum of squares 100^==^0^338350^difference-of-squares sum_of_squares 100
+Difference of squares 1^==^0^0^difference-of-squares difference 1
+Difference of squares 5^==^0^170^difference-of-squares difference 5
+Difference of squares 100^==^0^25164150^difference-of-squares difference 100
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares 16 45 66
+Unrecognized command should return an error^==^1^ERROR: Invalid command. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares total 10
+Float number input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares difference 20.54
+Alpha input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares difference "abcd"
+Zero is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares sum_of_squares 0
+Negative value is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @difference-of-squares sum_of_squares|square_of_sum|difference n^difference-of-squares sum_of_squares -15
+EOF
+
