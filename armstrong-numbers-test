@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [armstrong-numbers.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Zero is Armstrong numbers^==^0^true^armstrong-numbers 0
+Single digits are Armstrong numbers^==^0^true^armstrong-numbers 5
+There are no two digit Armstrong numbers^==^0^false^armstrong-numbers 10
+A three digit number that is an Armstrong number^==^0^true^armstrong-numbers 153
+A three digit number that is not an Armstrong number^==^0^false^armstrong-numbers 100
+A four digit number that is an Armstrong number^==^0^true^armstrong-numbers 9474
+A four digit number that is not an Armstrong number^==^0^false^armstrong-numbers 9475
+A seven digit number that is an Armstrong number^==^0^true^armstrong-numbers 9926315
+A seven digit number that is not an Armstrong number^==^0^false^armstrong-numbers 9926314
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @armstrong-numbers n^armstrong-numbers
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @armstrong-numbers n^armstrong-numbers 5 7 23 153
+Float number input should return an error^==^1^ERROR: Only integer values allowed. USAGE: @armstrong-numbers n^armstrong-numbers 201.54
+Alpha input should return an error^==^1^ERROR: Only integer values allowed. USAGE: @armstrong-numbers n^armstrong-numbers "abcd"
+EOF
+
