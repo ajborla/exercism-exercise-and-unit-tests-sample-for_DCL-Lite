@@ -48,7 +48,27 @@ $!
 $! Subroutines
 $!
 $ IsISO8601Date: subroutine
+$! Perform rudimentary format checks on input, P1
+$   if F$LENGTH(P1) .NE. 10 .AND. -
+       F$LENGTH(P1) .NE. 19 then goto IsISO8601Date_FALSE
+$   if F$EXTRACT(4,1,P1) .NES. F$EXTRACT(7,1,P1) .OR. -
+       F$EXTRACT(4,1,P1) .NES. "-" then goto IsISO8601Date_FALSE
+$   if F$LENGTH(P1) .GT. 10
+$   then
+$     if F$EXTRACT(13,1,P1) .NES. F$EXTRACT(16,1,P1) .OR. -
+         F$EXTRACT(13,1,P1) .NES. ":" then goto IsISO8601Date_FALSE
+$   endif
+$!
+$! Passes rudimentary format checks, so we assume it is acceptable
+$!
+$ IsISO8601Date_TRUE:
+$   IsISO8601Date == 1
+$   goto IsISO8601Date_DONE
+$!
+$ IsISO8601Date_FALSE:
 $   IsISO8601Date == 0
+$!
+$ IsISO8601Date_DONE:
 $ endsubroutine
 
 $ AddGigasecondToISO8601: subroutine
