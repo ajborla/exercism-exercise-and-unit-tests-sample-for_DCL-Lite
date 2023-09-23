@@ -72,6 +72,17 @@ $ IsISO8601Date_DONE:
 $ endsubroutine
 
 $ AddGigasecondToISO8601: subroutine
-$   AddGigasecondToISO8601 == ""
+$   shell rm -f RESULT_* 2> /dev/null
+$   shell date -u -d &P1 +%s | xargs -n1 -I{} echo {} + 1000000000 | bc -l | xargs -n1 -I{} date -u -d @{} +%Y%m%d%H%M%S | xargs -n1 -I{} touch RESULT_{} 2> /dev/null
+$   ymdhms == F$ELEMENT(0,".",F$ELEMENT(1,"_",F$ELEMENT(1,"]",F$SEARCH("RESULT_*.*",1))))
+$   shell rm -f RESULT_* 2> /dev/null
+$   year = F$EXTRACT(0,4,ymdhms)
+$   month = F$EXTRACT(4,2,ymdhms)
+$   day = F$EXTRACT(6,2,ymdhms)
+$   hour = F$EXTRACT(8,2,ymdhms)
+$   minute = F$EXTRACT(10,2,ymdhms)
+$   second = F$EXTRACT(12,2,ymdhms)
+$   AddGigasecondToISO8601 == year + "-" + month + "-" + day + "T" + -
+                              hour + ":" + minute + ":" + second
 $ endsubroutine
 
