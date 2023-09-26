@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [space-age.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Age on Earth^==^0^31.69^space-age earth 1000000000
+Age on Mercury^==^0^280.88^space-age mercury 2134835688
+Age on Venus^==^0^9.78^space-age venus 189839836
+Age on Mars^==^0^35.88^space-age mars 2129871239
+Age on Jupiter^==^0^2.41^space-age jupiter 901876382
+Age on Saturn^==^0^2.15^space-age saturn 2000000000
+Age on Uranus^==^0^0.46^space-age uranus 1210123456
+Age on Neptune^==^0^0.35^space-age neptune 1821023456
+Not a planet^==^1^ERROR: Invalid planet name. USAGE: @space-age planet seconds^space-age sun 680804807
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @space-age planet seconds^space-age
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @space-age planet seconds^space-age 16 45 66
+Float number input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @space-age planet seconds^space-age earth 20.54
+Alpha input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @space-age planet seconds^space-age earth "abcd"
+Zero is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @space-age planet seconds^space-age earth 0
+Negative value is an error^==^1^ERROR: Only positive numbers allowed. USAGE: @space-age planet seconds^space-age earth -15
+EOF
+
