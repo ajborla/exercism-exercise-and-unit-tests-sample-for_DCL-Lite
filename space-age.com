@@ -10,7 +10,8 @@ $ if P3 .NES. "" then goto ArgError
 $! Reject missing input
 $ if P1 .EQS. "" .OR. P2 .EQS. "" then goto ArgError
 
-$! Lookup tables
+$! Constants, lookup tables
+$ EARTH_YEAR_SECONDS = 31557600
 $ PLANETS = "mercury/venus  /earth  /mars   /jupiter/saturn /uranus /neptune/"
 $ ORBITALS = "0.24084670/0.61519726/1.00000000/1.88081580/11.8626150/29.4474980/84.0168460/164.791320/"
 
@@ -27,12 +28,18 @@ $ if P2 .LT. 1 then goto TypeError
 $! Extract the orbital period (relative to Earth's period) for this planet
 $ ORBITAL_PERIOD = F$ELEMENT(F$LOCATE(P1,PLANETS) / 8,"/",ORBITALS)
 
-$! Compute age in years given planet, and age in seconds
-$! ...
-$ Space_Age = 0
+$! Compute age in years given planet, and age in seconds. Shell out to
+$!  *NIX to perform required floatng point computation
+$! Note replacement of "." in file name with "X", then its restoration for
+$!  return result. Required because "." terminates the file name.
+$ shell rm -f RESULT_* 2> /dev/null
+$ shell echo &P2 \/ \(&EARTH_YEAR_SECONDS \* &ORBITAL_PERIOD\) | bc -l | xargs -n1 -I{} printf %.2f\\n {} | tr . X | xargs -n1 -I{} touch RESULT_{} 2> /dev/null
+$ Result = F$ELEMENT(0,".",F$ELEMENT(1,"_",F$ELEMENT(1,"]",F$SEARCH("RESULT_*.*",1))))
+$ Space_Age = F$ELEMENT(0,"X",Result) + "." + F$ELEMENT(1,"X",Result)
 
 $! Emit age, cleanup, and exit
 $ write Sys$Output F$STRING(Space_Age)
+$ shell rm -f RESULT_* 2> /dev/null
 $ exit 0
 
 $! Error handlers
