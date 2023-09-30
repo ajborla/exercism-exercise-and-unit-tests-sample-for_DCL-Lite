@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [triangle.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+All sides are equal, equilateral^==^0^true^triangle equilateral 2 2 2
+Any side is unequal^==^0^false^triangle equilateral 2 3 2
+No sides are equal, equilateral^==^0^false^triangle equilateral 5 4 6
+All zero sides is not a triangle^==^0^false^triangle equilateral 0 0 0
+Sides may be floats, equilateral^==^0^true^triangle equilateral 0.5 0.5 0.5
+Last two sides are equal^==^0^true^triangle isosceles 3 4 4
+First two sides are equal^==^0^true^triangle isosceles 4 4 3
+First and last sides are equal^==^0^true^triangle isosceles 4 3 4
+Equilateral triangles are also isosceles^==^0^true^triangle isosceles 4 4 4
+No sides are equal, isosceles^==^0^false^triangle isosceles 2 3 4
+First triangle inequality violation^==^0^false^triangle isosceles 1 1 3
+Second triangle inequality violation^==^0^false^triangle isosceles 1 3 1
+Third triangle inequality violation^==^0^false^triangle isosceles 3 1 1
+Sides may be floats, isosceles^==^0^true^triangle isosceles 0.5 0.4 0.5
+No sides are equal, scalene^==^0^true^triangle scalene 5 4 6
+All sides are equal, scalene^==^0^false^triangle scalene 4 4 4
+First and second sides are equal^==^0^false^triangle scalene 4 4 3
+First and third sides are equal^==^0^false^triangle scalene 3 4 3
+Second and third sides are equal^==^0^false^triangle scalene 4 3 3
+May not violate triangle inequality^==^0^false^triangle scalene 7 3 2
+Sides may be floats, scalene^==^0^true^triangle scalene 0.5 0.4 0.6
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @triangle equilateral|isosceles|scalene A B C^triangle
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @triangle equilateral|isosceles|scalene A B C^triangle 16 45 66 34 56
+Unrecognized triangle type should return an error^==^1^ERROR: Invalid triangle type. USAGE: @triangle equilateral|isosceles|scalene A B C^triangle total 10 3 6
+Alpha input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @triangle equilateral|isosceles|scalene A B C^triangle isosceles "abcd" 5 7
+EOF
+
