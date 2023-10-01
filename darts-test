@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# DCL-Lite Unit Test Runner [darts.com]
+# Anthony J. Borla (ajborla@bigpond.com)
+# ----------------------------------------------------------------------------
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Missed target^==^0^0^darts -9 9
+On the outer circle^==^0^1^darts 0 10
+On the middle circle^==^0^5^darts -5 0
+On the inner circle^==^0^10^darts 0 -1
+Exactly on centre^==^0^10^darts 0 0
+Near the centre^==^0^10^darts -0.1 -0.1
+Just within the inner circle^==^0^10^darts 0.7 0.7
+Just outside the inner circle^==^0^5^darts 0.8 -0.8
+Just within the middle circle^==^0^5^darts -3.5 3.5
+Just outside the middle circle^==^0^1^darts -3.6 -3.6
+Just within the outer circle^==^0^1^darts -7.0 7.0
+Just outside the outer circle^==^0^0^darts 7.1 -7.1
+Asymmetric position between the inner and middle circles^==^0^5^darts 0.5 -4
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @darts x y^darts
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @darts x y^darts 5 7 23 153
+Mixed input should return an error^==^1^ERROR: Only numeric values allowed. USAGE: @darts x y^darts x 7
+Alpha input should return an error^==^1^ERROR: Only numeric values allowed. USAGE: @darts x y^darts seven zero
+EOF
+
