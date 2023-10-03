@@ -10,9 +10,22 @@ $ if P3 .NES. "" then goto ArgError
 $! Reject missing input
 $ if P1 .EQS. "" .OR. P2 .EQS. "" then goto ArgError
 
-$! Assume integer inputs
+$! Reject non-numeric input
 $ Input = F$INTEGER(P1)
+$ FirstChar = F$EDIT(F$EXTRACT(0,1,P1),"COLLAPSE,UPCASE")
+$ if (Input .EQ. 0) .AND. (FirstChar .NES. "0") -
+                    .AND. (F$LOCATE(".",P1) .GE. F$LENGTH(P1)) then -
+    goto TypeError
+$ if (Input .EQ. 1) .AND. -
+     ((FirstChar .EQS. "Y") .OR. (FirstChar .EQS. "T")) then goto TypeError
+
 $ Input = F$INTEGER(P2)
+$ FirstChar = F$EDIT(F$EXTRACT(0,1,P2),"COLLAPSE,UPCASE")
+$ if (Input .EQ. 0) .AND. (FirstChar .NES. "0") -
+                    .AND. (F$LOCATE(".",P2) .GE. F$LENGTH(P2)) then -
+    goto TypeError
+$ if (Input .EQ. 1) .AND. -
+     ((FirstChar .EQS. "Y") .OR. (FirstChar .EQS. "T")) then goto TypeError
 
 $! Compute (square of) distance from dart board centre
 $  Distance_Squared = P1 * P1 + P2 * P2
@@ -52,5 +65,8 @@ $ exit 0
 $! Error handlers
 $ ArgError:
 $   write Sys$Output "ERROR: Invalid arguments. USAGE: @darts x y"
+$   exit %X2A
+$ TypeError:
+$   write Sys$Output "ERROR: Only numeric values allowed. USAGE: @darts x y"
 $   exit %X2A
 
