@@ -27,32 +27,48 @@ $ if (Input .EQ. 0) .AND. (FirstChar .NES. "0") -
 $ if (Input .EQ. 1) .AND. -
      ((FirstChar .EQS. "Y") .OR. (FirstChar .EQS. "T")) then goto TypeError
 
-$! Compute (square of) distance from dart board centre
-$  Distance_Squared = P1 * P1 + P2 * P2
+$! Compute (square of) distance from dart board centre, but do so differently
+$!  for floats and integer arguments. So, is either argument a float ?
+$ if (F$LOCATE(".",P1) .LT. F$LENGTH(P1)) .OR. -
+     (F$LOCATE(".",P2) .LT. F$LENGTH(P2))
+$ then
+$! Use host shell to compute a floating point result. Note the result is
+$!  rounded to the nearest integer value.
+$   shell rm -f RESULT_*
+$! Result is rounded by adding 0.5 to floating point result, then lopping off decimal
+$!  portion. NOTE: Scale increased (by multiplying squares by 10) to improve accuracy.
+$   shell echo 10 \* &P1 \* &P1 + 10 \* &P2 \* &P2 + 0.5 | bc -l | xargs -I% touch RESULT_%
+$   Distance_Squared = F$ELEMENT(0,".",F$ELEMENT(1,"_",F$ELEMENT(1,"]",F$SEARCH("RESULT_*.*",1))))
+$   shell rm -f RESULT_*
+$!...
+$ else
+$! No, we have integers, so our calculation is simple:
+$   Distance_Squared = 10 * P1 * P1 + 10 * P2 * P2
+$ endif
 
 $! Use Boolean flag to skip conditional tests, so avoiding complex
 $!  IF-ELSE logic.
 $ Is_Distance_Set = 0
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 100
+$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 1000
 $ then
 $   Score = 0
 $   Is_Distance_Set = 1
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 25
+$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 250
 $ then
 $   Score = 1
 $   Is_Distance_Set = 1
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 1
+$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 10
 $ then
 $   Score = 5
 $   Is_Distance_Set = 1
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .LE. 1
+$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .LE. 10
 $ then
 $   Score = 10
 $   Is_Distance_Set = 1
