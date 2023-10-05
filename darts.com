@@ -27,6 +27,9 @@ $ if (Input .EQ. 0) .AND. (FirstChar .NES. "0") -
 $ if (Input .EQ. 1) .AND. -
      ((FirstChar .EQS. "Y") .OR. (FirstChar .EQS. "T")) then goto TypeError
 
+$! Scaling Factor
+$ SCALING_FACTOR = 10
+
 $! Compute (square of) distance from dart board centre, but do so differently
 $!  for floats and integer arguments. So, is either argument a float ?
 $ if (F$LOCATE(".",P1) .LT. F$LENGTH(P1)) .OR. -
@@ -34,49 +37,42 @@ $ if (F$LOCATE(".",P1) .LT. F$LENGTH(P1)) .OR. -
 $ then
 $! Use host shell to compute a floating point result. Note the result is
 $!  rounded to the nearest integer value.
-$   shell rm -f RESULT_*
+$   shell rm -f RESULT_* 2> /dev/null
 $! Result is rounded by adding 0.5 to floating point result, then lopping off decimal
-$!  portion. NOTE: Scale increased (by multiplying squares by 10) to improve accuracy.
-$   shell echo 10 \* &P1 \* &P1 + 10 \* &P2 \* &P2 + 0.5 | bc -l | xargs -I% touch RESULT_%
+$!  portion. NOTE: Scale increased (by multiplying squares) to improve accuracy.
+$   shell echo &SCALING_FACTOR \* &P1 \* &P1 + &SCALING_FACTOR \* &P2 \* &P2 + 0.5 | bc -l | xargs -I% touch RESULT_% 2> /dev/null
 $   Distance_Squared = F$ELEMENT(0,".",F$ELEMENT(1,"_",F$ELEMENT(1,"]",F$SEARCH("RESULT_*.*",1))))
-$   shell rm -f RESULT_*
+$   shell rm -f RESULT_* 2> /dev/null
 $!...
 $ else
 $! No, we have integers, so our calculation is simple:
-$   Distance_Squared = 10 * P1 * P1 + 10 * P2 * P2
+$   Distance_Squared = SCALING_FACTOR * P1 * P1 + SCALING_FACTOR * P2 * P2
 $ endif
 
-$! Use Boolean flag to skip conditional tests, so avoiding complex
-$!  IF-ELSE logic.
-$ Is_Distance_Set = 0
-
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 1000
+$ if Distance_Squared .GT. (100 * SCALING_FACTOR)
 $ then
 $   Score = 0
-$   Is_Distance_Set = 1
+$   goto Done
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 250
+$ if Distance_Squared .GT. (25 * SCALING_FACTOR)
 $ then
 $   Score = 1
-$   Is_Distance_Set = 1
+$   goto Done
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .GT. 10
+$ if Distance_Squared .GT. (1 * SCALING_FACTOR)
 $ then
 $   Score = 5
-$   Is_Distance_Set = 1
+$   goto Done
 $ endif
 
-$ if Is_Distance_Set .EQ. 0 .AND. Distance_Squared .LE. 10
-$ then
-$   Score = 10
-$   Is_Distance_Set = 1
-$ endif
+$ if Distance_Squared .LE. (1 * SCALING_FACTOR) then Score = 10
 
 $! Return score, and exit cleanly with return code
-$ write Sys$Output Score
-$ exit 0
+$ Done:
+$   write Sys$Output Score
+$   exit 0
 
 $! Error handlers
 $ ArgError:
