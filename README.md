@@ -1,5 +1,5 @@
-# exercism-exercise-and-unit-test-sample-for_DCL-Lite
-> Sample exercises, unit tests, and test framework, for proposed Exercism track, DCL-Lite
+# exercism-exercise-and-unit-tests-sample-for_DCL-Lite
+> Sample exercises, unit tests, and test library, for proposed Exercism track, DCL-Lite
 
 |||
 | :---     | :--- |
