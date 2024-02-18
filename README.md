@@ -26,6 +26,15 @@ Although _DCL_ is primarily used on the _OpenVMS_ platform, it has been ported t
 Putting this into perspective, its utility as an interactive tool mimicing _OpenVMS_ idioms to manage system resources, has been substantially diminished. However, its usefulness as a vehicle for implementing Exercism exercises using _DCL_ idioms, remains intact.
 
 ### Test Library
+A _DCL_-native unit test framework / library, reliant on the presence of certain (missing) utilities could not be used. Further, a custom, _DCL_-native implementation was ruled out by missing file I/O facilities.
+
+Instead, a custom _bash_-based solution, comprising 23 lines of code, was used. This code consists of 3 functions, and is hosted in the `DCLUNIT` file.
+
+Using `source`, the file is included in each test script, and the set of test parameters there contained, executed.
+
+The set of 21 included exercises have been reliably tested using this small library. Planned extensions (contingent on acceptance of _DCL-Lite_ as an Exercism track) include:
+* Emit TAP-compliant output
+* Emit Exercism spec-compliant JSON output
 
 ## Installation
 ## Usage
