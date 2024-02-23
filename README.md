@@ -37,7 +37,73 @@ The set of 21 included exercises have been reliably tested using this small libr
 * Emit Exercism spec-compliant JSON output
 
 ## Installation
+
 ## Usage
+Assuming command-line operation, and that the current directory points to a clone of this repository, the unit tests for an exercise, for example, the `leap` exercise, may be effected by invoking the `leap-test` script, like so:
+
+```plain
+./leap-test
+```
+
+A successful execution will see generation of the following output:
+
+```plain
+OK - Year not divisible by 4: common year
+OK - Year divisible by 2, not divisible by 4 in common year
+OK - Year divisible by 4, not divisible by 100: leap year
+OK - Year divisible by 4 and 5 is still a leap year
+OK - Year divisible by 100, not divisible by 400: common year
+OK - Year divisible by 100 but not by 3 is still not a leap year
+OK - Year divisible by 400: leap year
+OK - Year divisible by 400 but not by 125 is still a leap year
+OK - Year divisible by 200, not divisible by 400 in common year
+OK - No input should return an error
+OK - Too many arguments should return an error
+OK - Float number input should return an error
+OK - Alpha input should return an error
+```
+
+Continuing the current example, `leap.com`, is the exercise file. Note the `.com` extension (short for _command_); it contains the _DCL_ code under test (CUT).
+
+The accompanying file, `leap-test` is the test file, and contains _bash_ code. It is structured as follows:
+
+```bash
+#!/usr/bin/env bash
+
+#
+# Load unit test routines
+#
+. DCLUNIT
+
+#
+# Perform tests. Overall test status returned
+#
+runtests << EOF
+Year not divisible by 4: common year^==^0^false^leap 2015
+Year divisible by 2, not divisible by 4 in common year^==^0^false^leap 1970
+Year divisible by 4, not divisible by 100: leap year^==^0^true^leap 1996
+Year divisible by 4 and 5 is still a leap year^==^0^true^leap 1960
+Year divisible by 100, not divisible by 400: common year^==^0^false^leap 2100
+Year divisible by 100 but not by 3 is still not a leap year^==^0^false^leap 1900
+Year divisible by 400: leap year^==^0^true^leap 2000
+Year divisible by 400 but not by 125 is still a leap year^==^0^true^leap 2400
+Year divisible by 200, not divisible by 400 in common year^==^0^false^leap 1800
+No input should return an error^==^1^ERROR: Invalid arguments. USAGE: @leap year^leap
+Too many arguments should return an error^==^1^ERROR: Invalid arguments. USAGE: @leap year^leap 2016 4562 4566
+Float number input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @leap year^leap "2016.54"
+Alpha input should return an error^==^1^ERROR: Only positive numbers allowed. USAGE: @leap year^leap "abcd"
+EOF
+```
+
+The test script first sources the test library, then proceeds to feed the HEREDOC to the `runtests` function. Each line of the HEREDOC is a unit test, and each **_^_**-separated component, a test parameter.
+
+While **_^_** may seem an unusual choice for a separator:
+
+* It was necessary to avoid the use of both single and double quotes in test parameters (except for the right-most parameter)
+* Strings with spaces still had to be accommodated
+* No separator likely to appear within a test string, such as ',' or ';' or ':', could be used
+
+Note that tests may be commented out (using **_#_** at the start of a HEREDOC line), modified, and new tests added.
 
 ## Acknowledgements
 The author frequently referred to, and adapted, the unit tests in the [Exercism Bash Track](https://exercism.org/tracks/bash). Many thanks to the authors of those tests for their work, particularly, the clarity of test names, and the addition of extra tests.
