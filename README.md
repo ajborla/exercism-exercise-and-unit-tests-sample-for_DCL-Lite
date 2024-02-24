@@ -37,6 +37,75 @@ The set of 21 included exercises have been reliably tested using this small libr
 * Emit Exercism spec-compliant JSON output
 
 ## Installation
+The unit test library, unit tests, and Exercism exercises, are all resident in the current repository, and require no installation.
+
+_DCL-Lite_ requires separate installation. It is available for various platforms, including various *NIX, Linux and Windows, although only the last two will be covered here.
+
+### Linux Installation
+The archive has, for several years, been hosted on the DECUS website, and is obtainable via:
+
+```plain
+curl -sLk http://www.decuslib.com/decus/vmslt01b/net/dcll_i386_linux_221.tar > dcll_i386_linux_221.tar
+```
+
+To point to the `dcll_i386_linux_221` directory, ready for installation, do:
+
+```plain
+gzip -dv dcll_i386_linux_221_tar.gz
+mv dcll_i386_linux_221_tar dcll_i386_linux_221.tar
+mkdir dcll_i386_linux_221 && cd dcll_i386_linux_221 && tar -xvf ../dcll_i386_linux_221.tar
+```
+
+Should sourcing the archive prove problematic, an alternative is to clone the following repository:
+
+`git clone https://github.com/johnsonjh/Open-DCL-Lite`
+
+and point to the `dcll_i386_linux_221` directory, ready for installation:
+
+`cd Open-DCL-Lite/dcll_i386_linux_221`
+
+In both cases, issuing: `sudo ./install` will install the application.
+
+A `Hello, World!` string appearing on the console after issuing the following command:
+
+```plain
+dcll -c 'write Sys$Output "Hello, World!"'
+```
+
+is indicative of a successful installation.
+
+### Windows Installation
+A Windows installation is normally performed using an installer executable. One _is_ available, but it only executes on older Windows versions such as Windows XP.
+
+Therefore, the only way to effect an installation on _newer_ Windows platforms is to first do so, via the installer, on an older Windows version, then manually copy the files to the target platform.
+
+To obtain the installer, clone this website:
+
+`git clone https://github.com/johnsonjh/Open-DCL-Lite`
+
+The installer will be found:
+
+`Open-DCL-Lite\dist\dcllite_setup_221.exe`
+
+Successful execution (on Windows XP) will see the application installed into the following directory:
+
+`C:\Progra~1\accelr8\dcll`
+
+On the target platform, create the following directory structure:
+
+`C:\Progra~2\accelr8\dcll`
+
+and copy the installed files across. Add the new directory to the `PATH` environment variable, and, from a _Command Prompt_, test the installation:
+
+A `Hello, World!` string appearing on the console after issuing the following command:
+
+```plain
+dcll -c "write Sys$Output """Hello, World!""" "
+```
+
+is indicative of a successful installation.
+
+Please note the unit tests and exercises assume a *NIX / Linux environment. These _should_ execute under _Git for Windows_, or similar, emulation environment. The exercises using the `shell` command may, however, fail depending on the command string issued.
 
 ## Usage
 Assuming command-line operation, and that the current directory points to a clone of this repository, the unit tests for an exercise, for example, the `leap` exercise, may be effected by invoking the `leap-test` script, like so:
